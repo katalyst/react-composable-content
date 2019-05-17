@@ -21,6 +21,7 @@
   ],
   "author": "David Baines",
   "respository": "katalyst/react-composable-content",
+  "homepage": "https://github.com/katalyst/react-composable-content#readme",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
