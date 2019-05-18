@@ -6,11 +6,16 @@ Dependancy changes
 * Removed Ornament dependancy
 * Added parameterize as a dependancy
 
+Fixes
+
+* Fixed close advanced settings button not working
+
 Configuration changes
 
 * Renamed `component.name` to `component.label` and `component.slug` to `component.name` to be more consistent with field configuration
 * Renamed `allComposableTypes` prop to `components`
 * Removed need for `config` prop to include all component templating, instead we can get that from the `components` prop
+* Advanced settings are now configurable as `advancedSettings`
 
 This makes config more like this:
 
@@ -19,13 +24,25 @@ config={{
   main: ["text"]
 }}
 components={[
-  name: "text",
-  label: "Text",
-  fields: [{
-    name: "text_field",
+  {
+    name: "text",
     label: "Text",
-    type: "text",
-  }]
+    fields: [{
+      name: "text_field",
+      label: "Text",
+      type: "text",
+    }]
+  }
+]}
+advancedSettings={[
+  {
+    name: "class",
+    label: "Class",
+  },{
+    name: "id",
+    label: "Id",
+    hint: "This can be used for anchoring purposes",
+  }
 ]}
 ```
 

@@ -33,19 +33,19 @@ export default class ComposableComponent extends React.Component {
   // Advanced settings
   // =========================================================================
 
-  toggleAdvanced(){
+  toggleAdvanced = () => {
     this.setState({
       advancedVisible: !this.state.advancedVisible,
     });
   }
 
-  closeAdvanced(){
+  closeAdvanced = () => {
     this.setState({
       advancedVisible: false,
     });
   }
 
-  onAdvancedFormChange(props) {
+  onAdvancedFormChange = props => {
     const composition = { ...this.context.state.composition };
     composition[this.context.state.group][this.props.index].advanced = props.values;
     this.context.functions.composition.replaceComposition(composition);
@@ -55,13 +55,13 @@ export default class ComposableComponent extends React.Component {
   // Form hooks
   // =========================================================================
 
-  onFormChange(props){
+  onFormChange = props => {
     const composition = { ...this.context.state.composition };
     composition[this.context.state.group][this.props.index].data = props.values;
     this.context.functions.composition.replaceComposition(composition);
   }
 
-  validateForm(){
+  validateForm = () => {
     this.form.handleSubmit();
     // If form is invalid (eg. validation errors) and the component is collapsed,
     // open the component back up so we can focus on the error
@@ -169,7 +169,7 @@ export default class ComposableComponent extends React.Component {
                     <span>{preview}</span>
                   </div>
                 </div>
-                {functions.components.showAdvancedSettings &&
+                {contextSettings.advancedSettings &&
                   <button
                     type="button"
                     onClick={e => this.toggleAdvanced()}

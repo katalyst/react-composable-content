@@ -437,6 +437,7 @@ export class ComposableProvider extends React.Component {
               collapseComponent: this.collapseComponent,
               collapseAllComponents: this.collapseAllComponents,
               draftComponent: this.draftComponent,
+              closeAdvanced: this.closeAdvanced,
               validateComponent: validate,
             }
           },
