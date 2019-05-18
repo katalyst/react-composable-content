@@ -1,3 +1,44 @@
+# 1.0.3
+
+Removals:
+
+* `RichText`, `Asset`, `Date` and `Colour` field types have been removed as they were Koi-specific fields, some of these could be looked at as new builtins later on
+
+Additions: 
+
+* Icons are now an optional bundle - see below for more information
+* Basic stylesheet is an optional CSS bundle - ideally moving toward a better system, eg. css-in-js later on, but for now this is a quick win and helps move towards building a demo
+* Nicer warning when you have a config using an undefined component
+* Added `onCompositionChange` prop to do something with the JSON data whenever the composition changes, eg. send data via ajax or re-render something
+
+SVG Icons have been bundled as an optional inclusion:
+
+```js
+import ComposableContent from 'react-composable-content';
+import icons from 'react-composable-content/icons';
+
+<ComposableContent
+  icons={icons}
+/>
+```
+
+Or if you prefer to specify which icons you want to include, or if you want to mix-and-match the builtin icons with your own, you can import specific icons:
+
+```js
+import ComposableContent from 'react-composable-content';
+import visible from 'react-composable-content/icons/visible.svg';
+import myOtherIcon from './assets/my-other-icon.svg';
+
+<ComposableContent
+  icons={{
+    visible,
+    myOtherIcon,
+  }}
+/>
+```
+
+All icons should be inline SVG code.
+
 # 1.0.2
 
 Dependancy changes
@@ -11,7 +52,7 @@ Fixes
 * Fixed close advanced settings button not working
 * Fixed collapse all / reveal all
 
-Configuration changes
+Breaking Configuration changes
 
 * Renamed `component.name` to `component.label` and `component.slug` to `component.name` to be more consistent with field configuration
 * Renamed `allComposableTypes` prop to `components`

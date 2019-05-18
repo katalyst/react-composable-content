@@ -37,8 +37,26 @@ export class ComposableProvider extends React.Component {
     });
   }
 
+  // =========================================================================
+  // Helpers
+  // =========================================================================
+
   setRef = (name, element) => {
     this[name] = element;
+  }
+
+  // Render an icon or fallback text
+  // getIcon("visible", "Draft Mode");
+  // if icons["visible"] -> icons["visible"]
+  // else "Draft Mode"
+  getIcon = (name, fallback) => {
+    if(this.props.icons && this.props.icons[name]) {
+      return <span dangerouslySetInnerHTML={{ __html: this.props.icons[name] }}></span>
+    } else if(fallback) {
+      return fallback;
+    } else {
+      return false;
+    }
   }
 
   // =========================================================================
@@ -116,6 +134,7 @@ export class ComposableProvider extends React.Component {
         structure[key] = [];
       }
     });
+    this.compositionChangeCallback(structure);
     return structure;
   }
 
@@ -123,13 +142,32 @@ export class ComposableProvider extends React.Component {
   replaceComposition = composition => {
     this.setState({
       composition,
+    }, () => {
+      this.compositionChangeCallback();
     });
+  }
+
+  compositionChangeCallback = (composition) => {
+    if(this.props.onCompositionChange) {
+      this.props.onCompositionChange(composition || this.state.composition);
+    }
   }
 
   // Get the DataType template for a field type name
   // eg. "heading" -> composableTypes.where("type": "heading")
   getTemplateForComponent = fieldType => {
-    return this.props.components.filter(template => template.name === fieldType)[0] || false;
+    return this.props.components.filter(template => template.name === fieldType)[0] || 
+    // If there's no valid template for the component, we can generate one to at least
+    // not crash the UI due to bad config
+    {
+      id: fieldType,
+      name: fieldType,
+      label: `${fieldType} (Missing)`,
+      message: `
+        Error: The component '${fieldType}' is allowed in your config but is not present in the components prop.
+      `,
+      messageType: "error",
+    };
   }
 
   deleteAllData = () => {
@@ -146,10 +184,6 @@ export class ComposableProvider extends React.Component {
 
   addNewComponent = (type, atIndex=false) => {
     const component = this.getTemplateForComponent(type);
-    if(!component) {
-      alert(`Cannot find component template for ${type}`);
-      return;
-    }
 
     let composition = this.state.composition;
 
@@ -180,6 +214,7 @@ export class ComposableProvider extends React.Component {
     this.setState({
       composition,
     }, () => {
+      this.compositionChangeCallback();
       if(this.props.afterComponentAdd) {
         this.afterComponentAdd();
       }
@@ -194,6 +229,7 @@ export class ComposableProvider extends React.Component {
       this.setState({
         composition,
       },() => {
+        this.compositionChangeCallback();
         // After component remove
       });
     }
@@ -221,6 +257,8 @@ export class ComposableProvider extends React.Component {
     }
     this.setState({
       composition,
+    }, () => {
+      this.compositionChangeCallback();
     });
   }
 
@@ -231,6 +269,8 @@ export class ComposableProvider extends React.Component {
     });
     this.setState({
       composition,
+    }, () => {
+      this.compositionChangeCallback();
     });
   }
 
@@ -251,6 +291,8 @@ export class ComposableProvider extends React.Component {
     }
     this.setState({
       composition,
+    }, () => {
+      this.compositionChangeCallback();
     });
   }
 
@@ -391,6 +433,7 @@ export class ComposableProvider extends React.Component {
         this.setState({
           composition,
         }, () => {
+          this.compositionChangeCallback();
           if(this.props.onDragEnd) {
             this.props.onDragEnd(result, provided);
           }
@@ -439,6 +482,7 @@ export class ComposableProvider extends React.Component {
               draftComponent: this.draftComponent,
               closeAdvanced: this.closeAdvanced,
               validateComponent: validate,
+              getIcon: this.getIcon,
             }
           },
         }}

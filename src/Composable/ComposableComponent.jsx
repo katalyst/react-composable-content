@@ -176,7 +176,7 @@ export default class ComposableComponent extends React.Component {
                     title={this.state.advancedVisible ? "Hide advanced settings" : "Show advanced settings"}
                     className="composable--component--meta--section composable--component--meta--section__advanced composable--component--meta--icon disable-mouse-outline"
                   >
-                    <span dangerouslySetInnerHTML={{__html: contextSettings.icons.cog}}></span>
+                    {functions.components.getIcon("cog", "Advanced")}
                   </button>
                 }
                 <button
@@ -186,8 +186,8 @@ export default class ComposableComponent extends React.Component {
                   title={component.component_draft ? "Disable draft mode" : "Enable draft mode"}
                 >
                   {component.component_draft
-                    ? <span dangerouslySetInnerHTML={{__html: contextSettings.icons.hidden}}></span>
-                    : <span dangerouslySetInnerHTML={{__html: contextSettings.icons.visible}}></span>
+                    ? <React.Fragment>{functions.components.getIcon("hidden", "Publish")}</React.Fragment>
+                    : <React.Fragment>{functions.components.getIcon("visible", "Draft")}</React.Fragment>
                   }
                 </button>
                 <button

@@ -1,6 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
+// import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import copy from 'rollup-plugin-copy'
 // import replace from 'rollup-plugin-replace';
 // import strip from 'rollup-plugin-strip';
 import { uglify } from 'rollup-plugin-uglify';
@@ -37,6 +38,13 @@ export default [
       json(),
       resolve({ extensions }),
       babel(getBabelOptions({ useESModules: false })),
+      copy({
+        targets: [
+          'src/icons',
+          'src/composbale-icons.js',
+        ],
+        outputFolder: 'dist',
+      })
     ],
   },
 ]

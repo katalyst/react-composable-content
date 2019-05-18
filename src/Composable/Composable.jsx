@@ -11,8 +11,8 @@ import { ComposableProvider, ComposableContext } from './ComposableContext';
 
   composition: object of initial value, empty by default
   config: object of component and field configuration
-  allComposableTypes: object of all composable types
-  showAdvancedSettings: boolean to toggle advanced settings
+  components: object of all composable types
+  advancedSettings: object of advanced settings fields
   debug: boolean to show the JSON output
 
   Integration Props
