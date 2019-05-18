@@ -11,7 +11,7 @@ export default class ComposableFieldRichtext extends React.Component {
   }
 
   triggerBindings = () => {
-    var $editor = $("#" + this.props.id)[0];
+    var $editor = document.querySelector("#" + this.props.id);
     Ornament.CKEditor.bindForTextarea($editor);
     var instance = CKEDITOR.instances[this.props.id];
     if(instance) {
@@ -31,9 +31,7 @@ export default class ComposableFieldRichtext extends React.Component {
   */
   afterMount = values => {
     this.triggerBindings();
-    $(document).on("composable:re-attach-ckeditors", () => {
-      this.triggerBindings();
-    });
+    document.addEventListener("composable:re-attach-ckeditors", this.triggerBindings);
   }
 
   /*

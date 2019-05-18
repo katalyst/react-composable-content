@@ -18,9 +18,9 @@ export default class ComposableLibrary extends React.Component {
                 {this.props.composableTypes.map((component, index) => {
                   return(
                     <Draggable
-                      draggableId={component.slug}
+                      draggableId={component.name}
                       index={index}
-                      key={component.slug}
+                      key={component.name}
                     >
                       {(libraryDraggableProvided, libraryDraggableSnapshot) => (
                         <div
@@ -50,7 +50,7 @@ export default class ComposableLibrary extends React.Component {
                               </React.Fragment>
                             }
                             <div>
-                              {component.name || component.slug}
+                              {component.label || component.name}
                             </div>
                           </div>
                         </div>

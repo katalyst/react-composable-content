@@ -22,11 +22,11 @@ export default class ComposableComponent extends React.Component {
   }
 
   componentDidMount(){
-    $(document).on("composable-content:validate", this.validateForm);
+    document.addEventListener("composable-content:validate", this.validateForm);
   }
 
   componentWillUnmount(){
-    $(document).off("composable-content:validate", this.validateForm);
+    document.removeEventListener("composable-content:validate", this.validateForm);
   }
 
   // =========================================================================
@@ -162,7 +162,7 @@ export default class ComposableComponent extends React.Component {
                       }
                     </React.Fragment>
                   }
-                  <strong>{template.name || template.slug || component.section_type}</strong>
+                  <strong>{template.label || template.name || component.section_type}</strong>
                 </div>
                 <div className="composable--component--preview grey small">
                   <div>

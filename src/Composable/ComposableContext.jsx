@@ -129,7 +129,7 @@ export class ComposableProvider extends React.Component {
   // Get the DataType template for a field type name
   // eg. "heading" -> composableTypes.where("type": "heading")
   getTemplateForComponent = fieldType => {
-    return this.props.allComposableTypes.filter(template => template.slug === fieldType)[0] || false;
+    return this.props.components.filter(template => template.name === fieldType)[0] || false;
   }
 
   deleteAllData = () => {
@@ -156,7 +156,7 @@ export class ComposableProvider extends React.Component {
     // Create a component structure
     let newComponent = {
       id: Date.now(),
-      component_type: component.slug,
+      component_type: component.name,
       component_collapsed: false,
       component_draft: false,
       advanced: {},

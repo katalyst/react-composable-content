@@ -1,5 +1,6 @@
 import React from 'react';
 import { Field } from 'react-final-form';
+import parameterize from 'parameterize';
 
 export default class ComposableFieldRadiobuttons extends React.Component {
 
@@ -8,7 +9,7 @@ export default class ComposableFieldRadiobuttons extends React.Component {
     return(
       <div className="radio_buttons" ref="options">
         {options.map((option, index) => {
-          var key = Ornament.parameterize(this.props.fieldSettings.name) + "__option-" + index + "__" + Ornament.parameterize(option.label + "");
+          var key = parameterize(this.props.fieldSettings.name) + "__option-" + index + "__" + parameterize(option.label + "");
           return(
             <span className="radio" key={key}>
               <label>
