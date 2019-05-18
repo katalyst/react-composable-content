@@ -19,8 +19,8 @@ export default class ComposableGroupItem extends React.Component {
         onDragEnd={(result, provided) => functions.dnd.onDragEnd(result, provided, this.props.groupKey)}
       >
         <div className="composable--header">
-          <button type="button" onClick={e => functions.composition.collapseAllComponents(true)}>Collapse All</button> |
-          <button type="button" onClick={e => functions.composition.collapseAllComponents()}>Reveal All</button>
+          <button type="button" onClick={e => functions.components.collapseAllComponents(true)}>Collapse All</button> |
+          <button type="button" onClick={e => functions.components.collapseAllComponents()}>Reveal All</button>
         </div>
         <div className={`composable ${hasSection ? "composable__with-sections" : ""}`}>
           <div className="composable--composition">

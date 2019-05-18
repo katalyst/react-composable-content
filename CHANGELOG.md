@@ -9,6 +9,7 @@ Dependancy changes
 Fixes
 
 * Fixed close advanced settings button not working
+* Fixed collapse all / reveal all
 
 Configuration changes
 
