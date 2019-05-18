@@ -16,11 +16,12 @@ export default class ComposableLibrary extends React.Component {
             {(libraryDroppableProvided, libraryDroppableSnapshot) => (
               <div ref={libraryDroppableProvided.innerRef}>
                 {this.props.composableTypes.map((component, index) => {
+                  const template = functions.components.getTemplateForComponent(component);
                   return(
                     <Draggable
-                      draggableId={component.name}
+                      draggableId={template.name}
                       index={index}
-                      key={component.name}
+                      key={template.name}
                     >
                       {(libraryDraggableProvided, libraryDraggableSnapshot) => (
                         <div
@@ -37,10 +38,10 @@ export default class ComposableLibrary extends React.Component {
                           >
                             {settings.icons &&
                               <React.Fragment>
-                                {component.icon && settings.icons[component.icon]
+                                {template.icon && settings.icons[template.icon]
                                   ? <div
                                       className="composable--library--icon"
-                                      dangerouslySetInnerHTML={{__html: settings.icons[component.icon]}}
+                                      dangerouslySetInnerHTML={{__html: settings.icons[template.icon]}}
                                     ></div>
                                   : <div
                                       className="composable--library--icon"
@@ -50,7 +51,7 @@ export default class ComposableLibrary extends React.Component {
                               </React.Fragment>
                             }
                             <div>
-                              {component.label || component.name}
+                              {template.label || template.name}
                             </div>
                           </div>
                         </div>
