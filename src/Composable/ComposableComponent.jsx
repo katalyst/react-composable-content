@@ -5,6 +5,7 @@ import arrayMutators from 'final-form-arrays';
 import { ComposableContext } from './ComposableContext';
 import ComposableField from './ComposableField';
 import ComposableAdvancedSettings from './ComposableAdvancedSettings';
+import Condition from './ComposableFieldCondition';
 
 export default class ComposableComponent extends React.Component {
   static contextType = ComposableContext;
@@ -111,15 +112,17 @@ export default class ComposableComponent extends React.Component {
       let componentMessageClass = "composable--component--message panel--padding content";
       let componentMessageContent = this.props.template.message;
       if(!hasFields && !componentMessageContent) {
-        componentMessageContent = "This component doesn't require configuration.";
+        componentMessageContent = "<p>This component doesn't require configuration.</p>";
       }
       if(this.props.template.messageType === "passive") {
         componentMessageClass += " bg__passive"
       }
+      // Wrap all messages in <p> tags if they don't start with a "<"
+      if(componentMessageContent.trim()[0] !== "<") {
+        componentMessageContent = `<p>${componentMessageContent}</p>`;
+      }
       componentMessage = 
-        <div className={componentMessageClass}>
-          <p>{componentMessageContent}</p>
-        </div>
+        <div className={componentMessageClass} dangerouslySetInnerHTML={{__html: componentMessageContent}}></div>
     }
 
     return(
@@ -143,7 +146,7 @@ export default class ComposableComponent extends React.Component {
             >
               {component.component_draft &&
                 <div className="composable--component--draft-banner">
-                  Draft mode: Only visible to administrators
+                  {functions.composition.getLangString("draftModeBanner", "Draft mode")}
                 </div>
               }
               <div className="composable--component--meta">
@@ -179,23 +182,25 @@ export default class ComposableComponent extends React.Component {
                     {functions.components.getIcon("cog", "Advanced")}
                   </button>
                 }
-                <button
-                  type="button"
-                  className="composable--component--meta--section composable--component--meta--section__draft composable--component--meta--icon disable-mouse-outline"
-                  onClick={e => functions.components.draftComponent(index)}
-                  title={component.component_draft ? "Disable draft mode" : "Enable draft mode"}
-                >
-                  {component.component_draft
-                    ? <React.Fragment>{functions.components.getIcon("hidden", "Publish")}</React.Fragment>
-                    : <React.Fragment>{functions.components.getIcon("visible", "Draft")}</React.Fragment>
-                  }
-                </button>
+                {functions.composition.hasDraftMode() &&
+                  <button
+                    type="button"
+                    className="composable--component--meta--section composable--component--meta--section__draft composable--component--meta--icon disable-mouse-outline"
+                    onClick={e => functions.components.draftComponent(index)}
+                    title={component.component_draft ? "Disable draft mode" : "Enable draft mode"}
+                  >
+                    {component.component_draft
+                      ? <React.Fragment>{functions.components.getIcon("hidden", "Publish")}</React.Fragment>
+                      : <React.Fragment>{functions.components.getIcon("visible", "Draft")}</React.Fragment>
+                    }
+                  </button>
+                }
                 <button
                   type="button"
                   onClick={e => functions.composition.removeComponent(component)}
                   className="composable--component--meta--section composable--component--meta--text-action disable-mouse-outline"
                   aria-label="Remove this component"
-                >Remove</button>
+                >{functions.composition.getLangString("remove", "Remove")}</button>
                 <button
                   type="button"
                   className="composable--component--meta--section composable--component--meta--collapser disable-mouse-outline"
@@ -264,14 +269,16 @@ export default class ComposableComponent extends React.Component {
                             </Field>
                             {template.fields.map((field, index) => {
                               return(
-                                <ComposableField
-                                  key={`${component.id}_${field.name}`}
-                                  onFormChange={this.onFormChange}
-                                  formValue={values}
-                                  componentIndex={this.props.index}
-                                  component={component}
-                                  field={field}
-                                />
+                                <Condition field={field} key={`${component.id}_${field.name}`}>
+                                  <ComposableField
+                                    key={`${component.id}_${field.name}`}
+                                    onFormChange={this.onFormChange}
+                                    formValue={values}
+                                    componentIndex={this.props.index}
+                                    component={component}
+                                    field={field}
+                                  />
+                                </Condition>
                               )
                             })}
                           </div>

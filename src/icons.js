@@ -1,5 +1,5 @@
 export { default as code } from './icons/code.svg.js';
-export { default as cog_filled } from './icons/cog_filled.svg.js';
+export { default as cog } from './icons/cog_filled.svg.js';
 export { default as comment } from './icons/comment.svg.js';
 export { default as folder } from './icons/folder.svg.js';
 export { default as heading } from './icons/heading.svg.js';

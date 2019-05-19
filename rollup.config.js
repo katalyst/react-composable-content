@@ -4,7 +4,7 @@ import babel from 'rollup-plugin-babel';
 import copy from 'rollup-plugin-copy'
 // import replace from 'rollup-plugin-replace';
 // import strip from 'rollup-plugin-strip';
-import { uglify } from 'rollup-plugin-uglify';
+// import { uglify } from 'rollup-plugin-uglify';
 // import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 import json from 'rollup-plugin-json';
 import pkg from './package.json';

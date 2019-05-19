@@ -8,8 +8,15 @@ Composable content was originally developed for [Koi](https://github.com/katalys
 
 Bare with us this component still needs plenty of documentation and testing.
 
+1. [Demo](#storybook)
 1. [Usage](#usage)
 1. [Props](#props)
+
+## Demo/Storybook
+
+You can view [the online storybook](https://katalyst.github.io/react-composable-content) to see some use-cases and examples.  
+
+You can run the storybook locally by cloning this repo and running `yarn storybook`
 
 ## Usage
 
@@ -133,6 +140,10 @@ These icons can be used in your component configuration
 Composable content can be used inside a form element to render a hidden input field to save the JSON result to your database.  
 This prop is the `name` attribute of the hidden input field.  
 
+### draftMode
+
+Boolean to enable components to be marked as drafts.
+
 ### advancedSettings
 
 A series of form fields to show in the advanced menu of components.  
@@ -152,7 +163,19 @@ You can have as many advanced fields as you like.
 
 Set to `true` to show the JSON output under your composable content
 
+### lang
+
+You can translate / override various strings in the component with your own strings:
+
+* emptyComposition
+* collapseAll
+* revealAll
+* remove
+* draftModeBanner
+
 ## Callback functions / integration options
+
+If you're implementing composable content inside a larger system you can take advantage of some of the more advanced integration props and callbacks to manage data flow or trigger other events.
 
 ### onMount
 
@@ -190,8 +213,8 @@ onDragStart={(result, provided) => {
 }}
 ```
 
+## Customisations
+
 ### customValidations
 
 ### customFormFieldComponents
-
-### externalSubmission

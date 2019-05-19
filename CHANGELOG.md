@@ -1,3 +1,12 @@
+# 1.0.4
+
+* Added storybook, run with `yarn storybook`
+* `config` prop is now optional, if no config is present the composition will allow all components in the `components` prop and create a single group named `main`
+* Draft mode is now opt-in with `draftMode: true`
+* Added initial translation options via the `lang` prop
+* Ported over conditional fields
+* Styling enhancements
+
 # 1.0.3
 
 Removals:
@@ -41,11 +50,11 @@ All icons should be inline SVG code.
 
 # 1.0.2
 
-Dependancy changes
+Dependency changes
 
-* Removed jQuery dependancy
-* Removed Ornament dependancy
-* Added parameterize as a dependancy
+* Removed jQuery dependency
+* Removed Ornament dependency
+* Added parameterize as a dependency
 
 Fixes
 

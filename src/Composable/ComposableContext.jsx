@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { setupValidationRules, validate } from './ComposableValidations';
 
 // a little function to help us with reordering the result
@@ -59,6 +59,14 @@ export class ComposableProvider extends React.Component {
     }
   }
 
+  getLangString = (name, fallback) => {
+    if(this.props.lang && this.props.lang[name]) {
+      return this.props.lang[name];
+    } else {
+      return fallback;
+    }
+  }
+
   // =========================================================================
   // Debug mode
   // =========================================================================
@@ -95,7 +103,8 @@ export class ComposableProvider extends React.Component {
 
   // Simple helper to get the first group key
   getInitialGroup = () => {
-    return Object.keys(this.props.config)[0];
+    const config = this.getConfig();
+    return Object.keys(config)[0];
   }
 
   getComposition = group => {
@@ -107,7 +116,8 @@ export class ComposableProvider extends React.Component {
   }
 
   getGroups = () => {
-    return Object.keys(this.props.config);
+    const config = this.getConfig();
+    return Object.keys(config);
   }
 
   hasGroups = () => {
@@ -118,6 +128,14 @@ export class ComposableProvider extends React.Component {
   // Data structures
   // =========================================================================
 
+  getConfig = () => {
+    if(this.props.config) {
+      return this.props.config;
+    } else if(this.props.components) {
+      return { main: this.props.components.map(component => component.name) };
+    }
+  }
+
   // Build out a nested JSON structure for all groups
   // If there is a new group added in the crud config, this will ensure that
   // it doesn't crash when trying to render the new group by initialising
@@ -127,7 +145,8 @@ export class ComposableProvider extends React.Component {
   initialiseComposition = () => {
     const structure = {};
     const existing = this.props.composition;
-    Object.keys(this.props.config).forEach(key => {
+    const config = this.props.config || { main: [] };
+    Object.keys(config).forEach(key => {
       if(existing && existing[key]) {
         structure[key] = existing[key];
       } else {
@@ -192,9 +211,12 @@ export class ComposableProvider extends React.Component {
       id: Date.now(),
       component_type: component.name,
       component_collapsed: false,
-      component_draft: false,
       advanced: {},
       data: {},
+    }
+
+    if(this.hasDraftMode()) {
+      newComponent.component_draft = false;
     }
 
     // Add default data for this component
@@ -272,6 +294,11 @@ export class ComposableProvider extends React.Component {
     }, () => {
       this.compositionChangeCallback();
     });
+  }
+
+  // Helper to check if draft mode is available
+  hasDraftMode = () => {
+    return this.props.draftMode;
   }
 
   // toggle - draftComponent(10);
@@ -455,6 +482,7 @@ export class ComposableProvider extends React.Component {
           functions: {
             setRef: this.setRef,
             composition: {
+              getConfig: this.getConfig,
               getComposition: this.getComposition,
               addNewComponent: this.addNewComponent,
               removeComponent: this.removeComponent,
@@ -463,6 +491,8 @@ export class ComposableProvider extends React.Component {
               getGroups: this.getGroups,
               setGroup: this.setGroup,
               hasGroups: this.hasGroups,
+              hasDraftMode: this.hasDraftMode,
+              getLangString: this.getLangString,
             },
             dnd: {
               onDragStart: this.onDragStart,

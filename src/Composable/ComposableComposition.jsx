@@ -12,7 +12,7 @@ export default class ComposableComposition extends React.Component {
     if(state.composition[this.props.groupKey].length === 0) {
       return(
         <div className="composable--composition--empty">
-          Drag a component here to start.
+          {functions.composition.getLangString("emptyComposition", "Drag a component here to start.")}
         </div>
       )
     } else {

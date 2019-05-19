@@ -19,8 +19,12 @@ export default class ComposableGroupItem extends React.Component {
         onDragEnd={(result, provided) => functions.dnd.onDragEnd(result, provided, this.props.groupKey)}
       >
         <div className="composable--header">
-          <button type="button" onClick={e => functions.components.collapseAllComponents(true)}>Collapse All</button> |
-          <button type="button" onClick={e => functions.components.collapseAllComponents()}>Reveal All</button>
+          <button type="button" onClick={e => functions.components.collapseAllComponents(true)}>
+            {functions.composition.getLangString("collapseAll", "Collapse All")}
+          </button>
+          <button type="button" onClick={e => functions.components.collapseAllComponents()}>
+            {functions.composition.getLangString("revealAll", "Reveal All")}
+          </button>
         </div>
         <div className={`composable ${hasSection ? "composable__with-sections" : ""}`}>
           <div className="composable--composition">
@@ -36,7 +40,7 @@ export default class ComposableGroupItem extends React.Component {
             </Droppable>
           </div>
           <ComposableLibrary
-            composableTypes={settings.config[this.props.groupKey]}
+            composableTypes={functions.composition.getConfig()[this.props.groupKey]}
           />
         </div>
       </DragDropContext>
