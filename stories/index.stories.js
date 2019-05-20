@@ -39,7 +39,7 @@ const Wrapper = props => {
           <summary>
             <h2 style={{ display: "inline" }}>Props</h2>
           </summary>
-          <pre class="code-pre">
+          <pre className="code-pre">
             {propsCode}
           </pre>
         </details>
@@ -358,6 +358,15 @@ storiesOf('Composable fields', module)
               min: 1,
               max: 20,
             },
+          },{
+            name: "custom_styles",
+            label: "This field has a custom style attribute",
+            fieldAttributes: {
+              style: {
+                border: "10px solid blue",
+                padding: "1rem",
+              }
+            },
           }]
         }],
         debug: true,
@@ -515,4 +524,43 @@ render(){
     >
       <IntegrationExample />
     </Wrapper>
+  )
+  .add('sectionifier helper', () => 
+  <Wrapper
+    title="sectionifier helper"
+    intro={`
+      <p>If you're using section components you can use the <code>sectionifier</code> helper to automatically group your JSON data in to sections for you.</p>
+      <p>Each group (by deafult, just "main") will now have a top-level array of section components with <code>section_type</code> describing what sort of section it is and <code>section_data</code> listing the components that live in that section.</p>
+      <pre class='code-pre'>
+import ComposableContent, { sectionifier } from 'react-composable-content';
+
+updateComposition = composition => {
+  this.setState({
+    composition: sectionifier(composition),
+  })
+}
+
+render(){
+  return(
+    &lt;div>
+      &lt;ComposableContent
+        onCompositionChange={composition => this.updateComposition(composition)}
+      />
+
+      &lt;pre>{JSON.stringify(this.state.composition, null, 2)}&lt;/pre>
+    &lt;/div>
+  }
+}</pre>
+      <p>If the first component does not have a section above it, a new section will be automatically created for it using the default fallback of "container", this of course can be overridden in the second parameter which is an object of additional options:</p>
+      <pre class='code-pre'>
+sectionifier(composition, {
+  defaultSection: "my-custom-fallback",
+});</pre>
+      <p>Use the <code>includeDrafts: true</code> option to include draft components. Drafts are ignored by default.</p>
+    `}
+  >
+    <IntegrationExample
+      sections={true}
+    />
+  </Wrapper>
   )

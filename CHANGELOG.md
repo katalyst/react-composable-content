@@ -5,6 +5,7 @@
 * Draft mode is now opt-in with `draftMode: true`
 * Added initial translation options via the `lang` prop
 * Ported over conditional fields
+* Added a `sectionifier` helper for JSON data that requires being formatted in to sections
 * Styling enhancements
 
 # 1.0.3

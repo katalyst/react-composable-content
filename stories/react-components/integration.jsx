@@ -1,5 +1,5 @@
 import React from 'react';
-import ComposableContent from '../../src/index';
+import ComposableContent, { sectionifier } from '../../src/index';
 import * as icons from '../../src/icons';
 
 export default class IntegrationExample extends React.Component {
@@ -11,22 +11,45 @@ export default class IntegrationExample extends React.Component {
   }
 
   updateContent = content => {
-    this.setState({ content });
+    if(this.props.sections) {
+      this.setState({ content: sectionifier(content) });
+    } else {
+      this.setState({ content });
+    }
   }
 
   render(){
+    const components = [];
+
+    if(this.props.sections) {
+      components.push({
+        name: "section",
+        label: "Section",
+        icon: "section",
+        fields: [{
+          name: "section_type",
+          type: "select",
+          data: ["full-width", "container", "callout"],
+        }]
+      })
+    }
+    
+    components.push({
+      name: "example_component",
+      label: "Example Component",
+      fields: [{
+        name: "string",
+        label: "String field",
+      }]
+    });
+
     return(
       <div>
         <ComposableContent
-          components={[{
-            name: "example_component",
-            label: "Example Component",
-            fields: [{
-              name: "string",
-              label: "String field",
-            }]
-          }]}
+          components={components}
           onCompositionChange={content => this.updateContent(content)}
+          draftMode={true}
+          icons={icons}
         />
         <h2>Output</h2>
         <p>This is an external <code>pre</code> tag that gets populated with the JSON data when it changes:</p>
