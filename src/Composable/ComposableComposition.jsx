@@ -6,7 +6,6 @@ export default class ComposableComposition extends React.Component {
   static contextType = ComposableContext;
 
   render() {
-    const { helpers } = this.props;
     const { settings, state, functions } = this.context;
 
     if(state.composition[this.props.groupKey].length === 0) {

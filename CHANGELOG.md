@@ -1,3 +1,16 @@
+# 1.0.5
+
+Additions:
+
+* Added stories for validations
+* Added `onMount` callback
+
+Fixes:
+
+* Fixed component add callback and renamed it to `onComponentAdd` to be consistent with other callbacks
+* Fixed the `anyValues` validation
+* Removed some unnecessary koi debug code
+
 # 1.0.4
 
 Additions:

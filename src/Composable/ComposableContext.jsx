@@ -21,14 +21,16 @@ export class ComposableProvider extends React.Component {
     this.state = {
       composition: this.initialiseComposition(),
       group: this.getInitialGroup(),
-      debug: this.props.debug || localStorage.getItem("koiDebugComposable") || false,
+      debug: this.props.debug || false,
       error: false,
     }
   }
 
   componentDidMount(){
     setupValidationRules(this.props.customValidations);
-    this.setInitialDebugState();
+    if(this.props.onMount) {
+      this.props.onMount(this);
+    }
   }
 
   componentDidCatch(error, info) {
@@ -76,17 +78,6 @@ export class ComposableProvider extends React.Component {
   setDebug = debug => {
     this.setState({
       debug,
-    });
-  }
-
-  setInitialDebugState = () => {
-    window.enableComposableDebug = window.enableComposableDebug || (() => {
-      localStorage.setItem("koiDebugComposable", true);
-      this.setDebug(true);
-    });
-    window.disableComposableDebug = window.disableComposableDebug || (() => {
-      localStorage.removeItem("koiDebugComposable");
-      this.setDebug();
     });
   }
 
@@ -237,8 +228,8 @@ export class ComposableProvider extends React.Component {
       composition,
     }, () => {
       this.compositionChangeCallback();
-      if(this.props.afterComponentAdd) {
-        this.afterComponentAdd();
+      if(this.props.onComponentAdd) {
+        this.props.onComponentAdd();
       }
     });
   }

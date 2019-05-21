@@ -31,8 +31,9 @@ const atLeastOne = (props) => {
 
 // Component has at least one filled in field
 const anyValues = (props) => {
-  let { values } = props;
-  if(Object.keys(values).length === 0) {
+  const { values } = props;
+  const valueArray = Object.values(values);
+  if(valueArray.length === 0 || valueArray.filter(value => !!value).length === 0) {
     return "Please fill in at least one field";
   }
 }

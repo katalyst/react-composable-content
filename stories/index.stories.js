@@ -496,6 +496,90 @@ storiesOf('Composable fields', module)
     </Wrapper>
   )
 
+storiesOf('Validations', module)
+  .add('Field validations', () =>
+    <Wrapper
+      title="Field validations"
+      intro={`
+        <p>Validations can be defined on fields with the <code>validations</code> prop.</p>
+        <p>Field validations will be triggered whenever blurring fields.</p>
+      `}
+      componentProps={{
+        components: [{
+          name: "example",
+          label: "Field validation",
+          hint: "This field is required",
+          fields: [{
+            name: "first_name",
+            label: "First name",
+            validations: ["required"],
+          }]
+        }]
+      }}
+    >
+      <ComposableContent />
+    </Wrapper>
+  )
+  .add('Component validations', () =>
+    <Wrapper
+      title="Component validations"
+      intro={`
+        <p>Validations can be defined on components with the <code>validations</code> prop.</p>
+        <p>Component validations can be used to validate various fields together as a whole.</p>
+      `}
+      componentProps={{
+        components: [{
+          name: "example",
+          label: "Component validation",
+          hint: "This field is required",
+          validations: ["anyValues"],
+          message: "This component uses the <code>anyValues</code> validations to check that any fields were present.",
+          fields: [{
+            name: "phone_number",
+            label: "Phone number",
+          },{
+            name: "mobile_number",
+            label: "Mobile number",
+          }]
+        }]
+      }}
+    >
+      <ComposableContent />
+    </Wrapper>
+  )
+  .add('External validations', () => {
+    const validateEvent = () => {
+      const validationEvent = new CustomEvent("composable-content:validate");
+      document.dispatchEvent(validationEvent);
+    }
+    return(
+      <Wrapper
+        title="External validations"
+        intro={`
+          <p>Each component can be programatically validated with a custom event <code>composable-content:validate</code></p>
+          <pre class='code-pre'>
+var validationEvent = new CustomEvent("composable-content:validate");
+document.dispatchEvent(validationEvent);</pre>
+        `}
+        componentProps={{
+          components: [{
+            name: "example",
+            label: "Component validation",
+            hint: "This field is required",
+            fields: [{
+              name: "first_name",
+              label: "First name",
+              validations: ["required"],
+            }]
+          }]
+        }}
+      >
+        <ComposableContent />
+        <button type="button" onClick={e => validateEvent()}>Validate button outside of component</button>
+      </Wrapper>
+    )
+  })
+
 storiesOf('Integration', module)
   .add('onCompositionChange', () => 
     <Wrapper
