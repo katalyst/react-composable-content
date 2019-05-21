@@ -1,12 +1,19 @@
 # 1.0.4
 
+Additions:
+
 * Added storybook, run with `yarn storybook`
 * `config` prop is now optional, if no config is present the composition will allow all components in the `components` prop and create a single group named `main`
 * Draft mode is now opt-in with `draftMode: true`
-* Added initial translation options via the `lang` prop
-* Ported over conditional fields
+* Added translation options via the `lang` prop
 * Added a `sectionifier` helper for JSON data that requires being formatted in to sections
+* Component `message` can now be HTML
+* Conditional fields with the `condition` prop for fields
 * Styling enhancements
+
+Fixes:
+
+* Fixed issues with radio/checkbox collections
 
 # 1.0.3
 
