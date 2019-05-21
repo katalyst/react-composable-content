@@ -1,6 +1,6 @@
 {
   "name": "react-composable-content",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A react-based content builder",
   "main": "dist/composable-content.cjs.js",
   "module": "dist/composable-content.es.js",
