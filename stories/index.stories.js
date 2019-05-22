@@ -512,6 +512,8 @@ import ComposableFieldExample from './ComposableFieldExample';
     ComposableFieldCustom,
   }}
 /></pre>
+
+      <p>This code sample is available in the repo at /stories/react-components/ComposableFieldCustom.jsx</p>
       `}
     >
       <ComposableContent
