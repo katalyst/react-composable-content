@@ -502,9 +502,20 @@ storiesOf('Composable fields', module)
       title="Custom field types"
       intro={`
         <p>You can create your own field components and make them available to your composable content by using the <code>customFormFieldComponents</code> prop.</p>
+        <p>Here we have a custom field type that renders two input fields side by side. It takes the first name and last name and saves the as "LastName,FirstName" via the setFieldValue helper.</p>
+        <p>We also have a prefilled component showing that you can use getFieldValue to take the formatted version, split it back out in to the two values and populate the inputs.</p>
+        <pre class='code-pre'>
+import ComposableFieldExample from './ComposableFieldExample';
+
+&lt;ComposableContent
+  customFormFieldComponents={{
+    ComposableFieldCustom,
+  }}
+/></pre>
       `}
-      componentProps={{
-        composition: {
+    >
+      <ComposableContent
+        composition={{
           main: [{
             id: 1,
             component_type: "example",
@@ -512,28 +523,22 @@ storiesOf('Composable fields', module)
               name: "Doe,John",
             }
           }]
-        },
-        components: [{
+        }}
+        components={[{
           name: "example",
           label: "Custom field example",
-          message: `
-            <p>Here we have a custom field type that renders two input fields side by side. It takes the first name and last name and saves the as "LastName,FirstName" via the setFieldValue helper.</p>
-            <p>We also have a prefilled component showing that you can use getFieldValue to take the formatted version, split it back out in to the two values and populate the inputs.</p>
-          `,
           fields: [{
             name: "name",
             label: "This is a custom field renderer",
             type: "custom",
           }]
-        }],
-        customFormFieldComponents: {
-          ComposableFieldCustom: ComposableFieldCustom,
-        },
-        debug: true,
-        icons,
-      }}
-    >
-      <ComposableContent />
+        }]}
+        customFormFieldComponents={{
+          ComposableFieldCustom,
+        }}
+        debug={true}
+        icons={icons}
+      />
     </Wrapper>
   )
 
