@@ -144,6 +144,10 @@ This prop is the `name` attribute of the hidden input field.
 
 Boolean to enable components to be marked as drafts.
 
+### ignoreDraftValidations
+
+Boolean to turn off field/component validations when a component is in draft mode.
+
 ### advancedSettings
 
 A series of form fields to show in the advanced menu of components.  
@@ -217,4 +221,59 @@ onDragStart={(result, provided) => {
 
 ### customValidations
 
+You can implement custom validations via the `customValidations` prop:
+
+```js
+import 'ComposableFieldCustomthing' from './Fields/ComposableFieldCustomthing';
+
+const validateAThing = ({ fields, field, name, values, value }) => {
+  if(value !== "AThing") {
+    return "Value needs to be 'AThing'";
+  }
+}
+
+<ComposableContent
+  components={[
+    name: "example_component",
+    label: "This is an example component",
+    fields: [{
+      name: "example_field",
+      validations: ["validate_a_thing"],
+    }]
+  ]}
+  customValidations={{
+    "validate_a_thing": validateAThing,
+  }}
+/>
+```
+
 ### customFormFieldComponents
+
+You can create use custom form field components by passing them in to the `customFormFieldComponents` prop.
+
+Check out the built in fields, available in src/ComposableFieldTypes for examples of how to implement your fields.
+
+Take a look at stories/react-components/ComposableFieldCustom.jsx to see how the demo in storybook is made.
+
+```js
+import 'ComposableFieldCustomthing' from './Fields/ComposableFieldCustomthing';
+import 'ComposableContent' from 'react-composable-content';
+
+<ComposableContent
+  components={[
+    name: "example_component",
+    label: "This is an example component",
+    fields: [{
+      name: "example_field",
+      type: "custom_thing",
+    }]
+  ]}
+  customFormFieldComponents={{
+    ComposableFieldCustomthing
+  }}
+/>
+```
+
+## Contributing
+
+This project is open source, pull requests welcome.  
