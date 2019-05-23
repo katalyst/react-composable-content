@@ -1,9 +1,6 @@
 import React from 'react';
 
 import { storiesOf } from '@storybook/react';
-// import { action } from '@storybook/addon-actions';
-// import { linkTo } from '@storybook/addon-links';
-// import { Button, Welcome } from '@storybook/react/demo';
 
 // Storybook styles and helpers
 import "./index.css";
@@ -133,11 +130,25 @@ storiesOf('Composition settings', module)
   .add('Groups', () => 
     <Wrapper
       title="Groups"
-      intro="<p>You can create as many groups as you like to manage composable content for various sections of your page. You can white-list components to only certain groups.</p>"
+      intro={`
+        <p>You can create as many groups as you like to manage composable content for various sections of your page. You can white-list components to only certain groups.</p>
+        <p>
+          Groups can be configured as just an array, eg: <code>main: ["component1", "component2"]</code><br />
+          or as an object if you need to customise a label eg: <code>main: { label: "My custom label", components: ["component1", "component2"]}</code>
+        </p>
+        <p>This demo shows both methods working together.</p>
+      `}
       componentProps={{
         config: {
           main: ["component1", "component2", "component3"],
           sidebar: ["component2"],
+          custom: {
+            label: "Custom label",
+            components: [
+              "component3",
+              "component1",
+            ],
+          },
         },
         components: getDemoComponents(["component1", "component2", "component3"]),
         debug: true,

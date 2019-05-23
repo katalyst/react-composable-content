@@ -3,6 +3,7 @@
 Additions:
 
 * Added `ignoreDraftValidations` prop to ignore validations for draft components.
+* Allowed `config` groups to be either an array or an object so you can customise the label
 
 Development additions:
 

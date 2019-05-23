@@ -40,7 +40,7 @@ export default class ComposableGroupItem extends React.Component {
             </Droppable>
           </div>
           <ComposableLibrary
-            composableTypes={functions.composition.getConfig()[this.props.groupKey]}
+            composableTypes={functions.composition.getGroup(this.props.groupKey).components}
           />
         </div>
       </DragDropContext>

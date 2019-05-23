@@ -67,15 +67,18 @@ export default class Composable extends React.Component {
                   {functions.composition.hasGroups() &&
                     <div className="tabs--links tabs--link__inpage">
                       <ul>
-                        {functions.composition.getGroups().map(groupKey => (
-                          <li key={groupKey}>
-                            <button
-                              type="button"
-                              className={`tabs--link ${state.group === groupKey ? "active" : ""}`}
-                              onClick={e => functions.composition.setGroup(groupKey)}
-                            >{groupKey}</button>
-                          </li>
-                        ))}
+                        {functions.composition.getGroups().map(groupKey => {
+                          const group = functions.composition.getGroup(groupKey);
+                          return(
+                            <li key={groupKey}>
+                              <button
+                                type="button"
+                                className={`tabs--link ${state.group === groupKey ? "active" : ""}`}
+                                onClick={e => functions.composition.setGroup(groupKey)}
+                              >{group.label}</button>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </div>
                   }

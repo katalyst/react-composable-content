@@ -111,6 +111,24 @@ export class ComposableProvider extends React.Component {
     return Object.keys(config);
   }
 
+  // Groups can be defined as:
+  // main: [:component1, :component2]
+  // or
+  // main: { label: "Custom label", components: [:component1, :component2] }
+  // This is a method to normalise a group object regardless of which format
+  // it's built as
+  getGroup = group => {
+    const item = this.getConfig()[group];
+    if(Array.isArray(item)) {
+      return {
+        label: group,
+        components: item,
+      }
+    } else {
+      return item;
+    }
+  }
+
   hasGroups = () => {
     return this.getGroups().length > 1;
   }
@@ -481,6 +499,7 @@ export class ComposableProvider extends React.Component {
               deleteAllData: this.deleteAllData,
               getGroups: this.getGroups,
               setGroup: this.setGroup,
+              getGroup: this.getGroup,
               hasGroups: this.hasGroups,
               hasDraftMode: this.hasDraftMode,
               getLangString: this.getLangString,
