@@ -9,7 +9,9 @@
     "build": "yarn build:clean && yarn build:dist",
     "build:clean": "rimraf dist",
     "build:dist": "rollup -c",
+    "lint": "yarn lint:eslint && yarn lint:css",
     "lint:eslint": "yarn eslint src/*/*.{js,jsx}",
+    "lint:css": "yarn stylelint src/*.css",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages"
@@ -65,6 +67,12 @@
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-uglify": "^6.0.2",
     "style-loader": "^0.23.1",
+    "stylelint": "^10.0.1",
+    "stylelint-config-prettier": "^5.2.0",
+    "stylelint-config-recommended": "^2.2.0",
+    "stylelint-config-standard": "^18.3.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.7.0",
     "webpack": "^4.31.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.3.1"
