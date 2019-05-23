@@ -9,4 +9,4 @@ export default `
     <path class="icon--fill" d="M23.249,17.5h-9a.75.75,0,1,0,0,1.5h9a.75.75,0,0,0,0-1.5Z"></path>
     <path class="icon--fill" d="M23.249,20.5h-9a.75.75,0,1,0,0,1.5h9a.75.75,0,0,0,0-1.5Z"></path>
   </svg>
-`
+`;

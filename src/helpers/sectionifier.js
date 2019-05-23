@@ -25,10 +25,11 @@
 
 */
 
-function sectionifyGroup(composition, options={}) {
+function sectionifyGroup(composition, options = {}) {
   const includeDrafts = options.includeDrafts || false;
-  const defaultSection = options.defaultSection || "container";
-  const draftChildrenOfDraftedSections = options.draftChildrenOfDraftedSections || false;
+  const defaultSection = options.defaultSection || 'container';
+  const draftChildrenOfDraftedSections =
+    options.draftChildrenOfDraftedSections || false;
 
   const formatted = [];
   let currentSection = false;
@@ -37,22 +38,21 @@ function sectionifyGroup(composition, options={}) {
     const component = { ..._component };
 
     // Skip if skipping drafts
-    if(!includeDrafts && component.component_draft) {
+    if (!includeDrafts && component.component_draft) {
       return;
     }
-    
     // If there's no initial section, let's create one
-    if(!currentSection && component.component_type !== "section") {
+    if (!currentSection && component.component_type !== 'section') {
       currentSection = {
         section_type: defaultSection,
         section_data: [],
-      }
+      };
     }
 
     // If we hit a section, create a new section
-    if(component.component_type === "section") {
+    if (component.component_type === 'section') {
       // push current page section to page sections if it's available
-      if(currentSection) {
+      if (currentSection) {
         formatted.push({ ...currentSection });
       }
       // Create a new section
@@ -61,13 +61,12 @@ function sectionifyGroup(composition, options={}) {
         section_data: [],
         section_draft: component.component_draft,
         advanced: component.advanced || [],
-      }
-
-    // If it's not a section, push to the current section_data
+      };
     } else {
+      // If it's not a section, push to the current section_data
       // If children should be drafted to the same state as the section
       // we can do that here
-      if(draftChildrenOfDraftedSections && currentSection.section_draft) {
+      if (draftChildrenOfDraftedSections && currentSection.section_draft) {
         component.component_draft = currentSection.section_draft;
       }
       // Remove unnecessary UI states
@@ -78,7 +77,7 @@ function sectionifyGroup(composition, options={}) {
   });
 
   // Push the last section to the formatted array
-  if(currentSection && formatted.indexOf(currentSection) < 0) {
+  if (currentSection && formatted.indexOf(currentSection) < 0) {
     formatted.push(currentSection);
   }
 
@@ -86,10 +85,10 @@ function sectionifyGroup(composition, options={}) {
 }
 
 // Loop over all groups and format
-export default function sectionifier(composition={}, options={}) {
+export default function sectionifier(composition = {}, options = {}) {
   const formatted = {};
   Object.keys(composition).forEach(key => {
-    formatted[key] = sectionifyGroup(composition[key]);
+    formatted[key] = sectionifyGroup(composition[key], options);
   });
   return formatted;
 }

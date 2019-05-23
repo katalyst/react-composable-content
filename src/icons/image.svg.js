@@ -4,4 +4,4 @@ export default `
     <path class="icon--fill" d="M13 4.5c0 0.828-0.672 1.5-1.5 1.5s-1.5-0.672-1.5-1.5 0.672-1.5 1.5-1.5 1.5 0.672 1.5 1.5z"></path>
     <path class="icon--fill" d="M14 13h-12v-2l3.5-6 4 5h1l3.5-3z"></path>
   </svg>
-`
+`;

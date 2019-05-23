@@ -14,29 +14,35 @@ import { ARRAY_ERROR } from 'final-form';
 // =========================================================================
 
 // Basic presence validation
-const presence = (props) => {
+const presence = props => {
   const { value } = props;
-  if(!value) {
-    return "Required";
+  if (!value) {
+    return 'Required';
   }
-}
+  return false;
+};
 
 // Array has at least one
-const atLeastOne = (props) => {
+const atLeastOne = props => {
   const { value } = props;
-  if(!value.length) {
-    return "Must have at least one";
+  if (!value.length) {
+    return 'Must have at least one';
   }
-}
+  return false;
+};
 
 // Component has at least one filled in field
-const anyValues = (props) => {
+const anyValues = props => {
   const { values } = props;
   const valueArray = Object.values(values);
-  if(valueArray.length === 0 || valueArray.filter(value => !!value).length === 0) {
-    return "Please fill in at least one field";
+  if (
+    valueArray.length === 0 ||
+    valueArray.filter(value => !!value).length === 0
+  ) {
+    return 'Please fill in at least one field';
   }
-}
+  return false;
+};
 
 // =========================================================================
 // Validation Map
@@ -47,16 +53,16 @@ let validationRules = {};
 
 const setupValidationRules = validations => {
   const defaults = {
-    "required": presence,
-    "atLeastOne": atLeastOne,
-    "anyValues": anyValues,
-  }
+    required: presence,
+    atLeastOne,
+    anyValues,
+  };
   validationRules = {
     ...defaults,
     ...validations,
-  }
+  };
   return validationRules;
-}
+};
 
 // =========================================================================
 // Validate fields
@@ -64,106 +70,120 @@ const setupValidationRules = validations => {
 
 // Validate component as a whole
 const validateComponent = (component, values, errors) => {
-  let rules = component.validations || [];
-  if(rules.length) {
+  const rules = component.validations || [];
+  if (rules.length) {
     const componentErrors = [];
     rules.forEach(rule => {
-
       // Validate against this rule
       const ruleFunc = validationRules[rule];
-      if(ruleFunc) {
+      if (ruleFunc) {
         const validationError = ruleFunc({ fields: component.fields, values });
-        if(validationError) {
+        if (validationError) {
           componentErrors.push(validationError);
         }
-
-      // Log any validations requested that don't match with
-      // rules defined above
       } else {
-        console.warn(`[COMPOSABLE VALIDATION] Attempting to validate non-existant validation rule: ${rule}`);
+        // Log any validations requested that don't match with
+        // rules defined above
+        console.warn(
+          `[COMPOSABLE VALIDATION] Attempting to validate non-existant validation rule: ${rule}`
+        );
       }
-
     });
-
-    if(componentErrors.length) {
-      errors.componentError = componentErrors.join("<br />");
+    if (componentErrors.length) {
+      errors.componentError = componentErrors.join('<br />');
     }
   }
-}
+};
 
 // Validate a single field
 // This function is used recursively for nested fields
 const validateField = (fields, field, values, errors) => {
   const name = field.name;
   const value = values[name];
-  let rules = field.validations || [];
+  const rules = field.validations || [];
 
   // Override validation rule to presence validation if field is required
-  if(field.required || field.fieldAttributes && field.fieldAttributes.required) {
-    if(rules.indexOf("required") > -1) {
+  if (
+    field.required ||
+    (field.fieldAttributes && field.fieldAttributes.required)
+  ) {
+    if (rules.indexOf('required') > -1) {
       return;
     }
-    rules.push("required");
+    rules.push('required');
   }
-  if(rules.length) {
+  if (rules.length) {
     // Start logging errors
     const fieldErrors = [];
 
     // Loop over each rule
     rules.forEach(rule => {
-
       // Validate against this rule
       const ruleFunc = validationRules[rule];
-      if(ruleFunc) {
-        const validationError = ruleFunc({ fields, field, name, values, value });
-        if(validationError) {
+      if (ruleFunc) {
+        const validationError = ruleFunc({
+          fields,
+          field,
+          name,
+          values,
+          value,
+        });
+        if (validationError) {
           fieldErrors.push(validationError);
         }
-
-      // Log any validations requested that don't match with
-      // rules defined above
       } else {
-        console.warn(`[COMPOSABLE VALIDATION] Attempting to validate non-existant validation rule: ${rule}`);
+        // Log any validations requested that don't match with
+        // rules defined above
+        console.warn(`
+          [COMPOSABLE VALIDATION] Attempting to validate non-existant validation rule: ${rule}
+        `);
       }
 
       // If there are errors, render each error as
       // a line
-      if(fieldErrors.length) {
+      if (fieldErrors.length) {
         // Repeaters have to namespace errors to error against
         // the array as a whole, eg "Must have at least one"
-        if(field.type === "repeater") {
+        if (field.type === 'repeater') {
           errors[name] = [];
-          errors[name][ARRAY_ERROR] = fieldErrors.join("<br />");
+          errors[name][ARRAY_ERROR] = fieldErrors.join('<br />');
         } else {
-          errors[name] = fieldErrors.join("<br />");
+          errors[name] = fieldErrors.join('<br />');
         }
       }
     });
   }
 
   // Recursion for nested fields
-  if(field.fields && field.fields.length) {
+  if (field.fields && field.fields.length) {
     errors[name] = errors[name] || [];
     values[name] = values[name] || [];
     values[name].forEach((repeaterItem, index) => {
       field.fields.forEach(nestedField => {
         errors[name][index] = errors[name][index] || {};
         values[name][index] = values[name][index] || {};
-        validateField(field.fields, nestedField, values[name][index], errors[name][index]);
+        validateField(
+          field.fields,
+          nestedField,
+          values[name][index],
+          errors[name][index]
+        );
       });
     });
   }
-}
+};
 
 // Core validation method
 const validate = (component, values) => {
   const errors = {};
-  if(component.validations) {
+  if (component.validations) {
     validateComponent(component, values, errors);
   }
-  component.fields.forEach(field => validateField(component.fields, field, values, errors));
+  component.fields.forEach(field =>
+    validateField(component.fields, field, values, errors)
+  );
   return errors;
-}
+};
 
 // Export main validation method
 export { setupValidationRules, validate };

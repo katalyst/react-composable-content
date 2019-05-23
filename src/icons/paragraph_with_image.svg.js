@@ -7,4 +7,4 @@ export default `
     <path class="icon--fill" d="M13,4H23a1,1,0,0,0,0-2H13a1,1,0,1,0,0,2Z"></path>
     <rect class="icon--fill" y="-0.002" width="10" height="10" rx="2" ry="2"></rect>
   </svg>
-`
+`;
