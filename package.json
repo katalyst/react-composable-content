@@ -6,11 +6,10 @@
   "module": "dist/composable-content.es.js",
   "scripts": {
     "prepublishOnly": "npm run build",
-
     "build": "yarn build:clean && yarn build:dist",
     "build:clean": "rimraf dist",
     "build:dist": "rollup -c",
-    "lint:eslint": "yarn eslint src",
+    "lint:eslint": "yarn eslint src/*/*.{js,jsx}",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "deploy-storybook": "storybook-to-ghpages"
