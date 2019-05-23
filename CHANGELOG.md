@@ -8,6 +8,11 @@ Development additions:
 
 * Added `.nvmrc`
 * Added `.browserlistrc`
+* Added [sizeSnapshot](https://github.com/TrySound/rollup-plugin-size-snapshot) for rollup builds
+
+Fixes:
+
+* Fixed `icons.js` not being compiled
 
 # 1.0.5
 
