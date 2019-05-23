@@ -4,6 +4,11 @@ Additions:
 
 * Added `ignoreDraftValidations` prop to ignore validations for draft components.
 
+Development additions:
+
+* Added `.nvmrc`
+* Added `.browserlistrc`
+
 # 1.0.5
 
 Additions:

@@ -1,5 +1,7 @@
 src
 .babelrc
 .gitignore
+.browserlistrc
+.nvmrc
 stories
 .storybook
