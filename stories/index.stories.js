@@ -18,6 +18,11 @@ import * as icons from '../src/icons';
 import IntegrationExample from './react-components/integration';
 import ComposableFieldCustom from './react-components/ComposableFieldCustom';
 
+const validateEvent = () => {
+  const validationEvent = new CustomEvent("composable-content:validate");
+  document.dispatchEvent(validationEvent);
+}
+
 const Wrapper = props => {
 
   // Clean up props for user consumption
@@ -561,7 +566,8 @@ storiesOf('Validations', module)
             name: "first_name",
             label: "First name",
             validations: ["required"],
-          }]
+          }],
+          icons: icons,
         }]
       }}
     >
@@ -588,45 +594,73 @@ storiesOf('Validations', module)
           },{
             name: "mobile_number",
             label: "Mobile number",
-          }]
+          }],
+          icons: icons,
         }]
       }}
     >
       <ComposableContent />
     </Wrapper>
   )
-  .add('External validations', () => {
-    const validateEvent = () => {
-      const validationEvent = new CustomEvent("composable-content:validate");
-      document.dispatchEvent(validationEvent);
-    }
-    return(
-      <Wrapper
-        title="External validations"
-        intro={`
-          <p>Each component can be programatically validated with a custom event <code>composable-content:validate</code></p>
-          <pre class='code-pre'>
+  .add('External validations', () => 
+    <Wrapper
+      title="External validations"
+      intro={`
+        <p>Each component can be programatically validated with a custom event <code>composable-content:validate</code></p>
+        <pre class='code-pre'>
 var validationEvent = new CustomEvent("composable-content:validate");
 document.dispatchEvent(validationEvent);</pre>
-        `}
-        componentProps={{
-          components: [{
-            name: "example",
-            label: "Component validation",
-            hint: "This field is required",
-            fields: [{
-              name: "first_name",
-              label: "First name",
-              validations: ["required"],
-            }]
+      `}
+      componentProps={{
+        components: [{
+          name: "example",
+          label: "Component validation",
+          hint: "This field is required",
+          fields: [{
+            name: "first_name",
+            label: "First name",
+            validations: ["required"],
           }]
-        }}
-      >
-        <ComposableContent />
-        <button type="button" onClick={e => validateEvent()}>Validate button outside of component</button>
-      </Wrapper>
-    )
-  })
+        }],
+        icons: icons,
+      }}
+    >
+      <ComposableContent />
+      <button type="button" onClick={e => validateEvent()}>Validate button outside of component</button>
+    </Wrapper>
+  )
+  .add('Ignore validations for draft components', () =>
+    <Wrapper
+      title="Ignore validations for draft components"
+      intro={`
+        <p>You can optionally use the <code>ignoreDraftValidations</code> to skip validations for any components that are in draft mode.</p>
+        <p>Obviously this also requires <code>draftMode: true</code>.</p>
+        <p>This will ignore both component and field validations.</p>
+      `}
+      componentProps={{
+        draftMode: true,
+        ignoreDraftValidations: true,
+        components: [{
+          name: "example",
+          label: "Component validation",
+          hint: "This field is required",
+          validations: ["anyValues"],
+          fields: [{
+            name: "phone_number",
+            label: "Phone number",
+            validations: ["required"],
+          },{
+            name: "mobile_number",
+            label: "Mobile number",
+          }]
+        }],
+        icons: icons,
+      }}
+    >
+      <ComposableContent />
+      <button type="button" onClick={e => validateEvent()}>Validate</button>
+    </Wrapper>
+  )
 
 storiesOf('Integration', module)
   .add('onCompositionChange', () => 

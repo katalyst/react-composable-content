@@ -236,7 +236,9 @@ export default class ComposableComponent extends React.Component {
                 ref={el => this.form = el}
                 initialValues={ contextState.composition[contextState.group][this.props.index].data }
                 validate={values => {
-                  if(!template || !template.fields) {
+                  const noFields = !template || !template.fields;
+                  const noValidateForDrafts = this.props.component.component_draft && contextSettings.ignoreDraftValidations;
+                  if(noFields || noValidateForDrafts) {
                     return;
                   }
                   return functions.components.validateComponent(template, values);
